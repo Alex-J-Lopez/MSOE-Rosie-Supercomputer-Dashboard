@@ -26,18 +26,18 @@ const DashboardLayoutContext = createContext<DashboardLayoutContextType | undefi
 export function DashboardLayoutProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<DashboardItem[]>([
     // Default dashboard items
-    {
-      id: 'default-cpu',
-      componentId: 'cpu-usage',
-      position: 0,
-      size: 'large',
-    },
-    {
-      id: 'default-memory',
-      componentId: 'memory-usage',
-      position: 1,
-      size: 'medium',
-    },
+    // {
+    //   id: 'default-cpu',
+    //   componentId: 'cpu-usage',
+    //   position: 0,
+    //   size: 'large',
+    // },
+    // {
+    //   id: 'default-memory',
+    //   componentId: 'memory-usage',
+    //   position: 1,
+    //   size: 'medium',
+    // },
   ]);
 
   const addItem = (component: DashboardComponent, position?: number) => {

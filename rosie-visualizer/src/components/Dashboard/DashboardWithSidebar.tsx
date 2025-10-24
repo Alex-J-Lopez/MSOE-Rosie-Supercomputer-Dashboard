@@ -12,7 +12,6 @@ import {
   closestCenter,
   DragOverlay,
 } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
 import ComponentSidebar from './ComponentSidebar';
 import DraggableDashboard from './DraggableDashboard';
 import { useDashboardLayout } from '../../contexts/DashboardLayoutContext';

@@ -7,7 +7,7 @@ import PollRateSelector from '../components/PollRateSelector';
 import DashboardWithSidebar from '../components/Dashboard/DashboardWithSidebar';
 
 export default function Home() {
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(true);
 
   return (
     <PollRateProvider>
