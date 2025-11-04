@@ -97,25 +97,47 @@ export function useNodesOverview() {
   const { nodes, isLoading: nodesLoading, error: nodesError } = useNodes();
   const { pollRate } = usePollRate();
 
-  // Fetch overview data for all nodes
-  const overviewQueries = nodes.map(node => ({
-    nodeId: node.node_id,
-    hook: useSWR<NodeOverviewData[]>(
-      node.node_id ? `https://dashboard.hpc.msoe.edu/api/node_overview?node_id=${node.node_id}` : null,
-      fetcher,
-      {
-        refreshInterval: pollRate || undefined,
-        revalidateOnFocus: false,
-        dedupingInterval: Math.min(5000, pollRate || 5000),
-        shouldRetryOnError: false,
-      }
-    )
-  }));
+  // Create a comma-separated list of node IDs for fetching all data at once
+  const nodeIdsParam = React.useMemo(() => {
+    return nodes.map(n => n.node_id).join(',');
+  }, [nodes]);
+
+  // Fetch overview data for all nodes in a single request
+  const { data: allOverviewData, error: overviewError, isLoading: overviewLoading } = useSWR<Record<string, NodeOverviewData>>(
+    nodeIdsParam ? `https://dashboard.hpc.msoe.edu/api/nodes_overview?node_ids=${nodeIdsParam}` : null,
+    async (url: string) => {
+      // Since the API might not support bulk fetching, we'll fetch individually
+      // but in parallel to avoid the hooks issue
+      const nodeIds = nodeIdsParam.split(',');
+      const promises = nodeIds.map(async (nodeId) => {
+        try {
+          const response = await fetch(`https://dashboard.hpc.msoe.edu/api/node_overview?node_id=${nodeId}`);
+          const data = await response.json();
+          return { nodeId, data: data?.[0] || null, error: null };
+        } catch (error) {
+          return { nodeId, data: null, error };
+        }
+      });
+      
+      const results = await Promise.all(promises);
+      
+      // Convert array of results to a record keyed by node_id
+      return results.reduce((acc, result) => {
+        acc[result.nodeId] = result.data;
+        return acc;
+      }, {} as Record<string, NodeOverviewData>);
+    },
+    {
+      refreshInterval: pollRate || undefined,
+      revalidateOnFocus: false,
+      dedupingInterval: Math.min(5000, pollRate || 5000),
+      shouldRetryOnError: false,
+    }
+  );
 
   const enrichedNodes: EnrichedNode[] = React.useMemo(() => {
-    return nodes.map((node, index) => {
-      const overviewData = overviewQueries[index]?.hook.data?.[0];
-      const hasError = overviewQueries[index]?.hook.error;
+    return nodes.map((node) => {
+      const overviewData = allOverviewData?.[node.node_id];
       
       const hasGpu = node.components.some(c => c.startsWith('GPU'));
       
@@ -123,7 +145,8 @@ export function useNodesOverview() {
       let status: 'online' | 'offline' | 'unknown' = 'unknown';
       if (overviewData) {
         status = 'online';
-      } else if (hasError) {
+      } else if (allOverviewData !== undefined && !allOverviewData[node.node_id]) {
+        // Data has been fetched but this node has no data
         status = 'offline';
       }
 
@@ -136,7 +159,7 @@ export function useNodesOverview() {
         lastUpdate: overviewData?.cpu_usage?.[0]?.time || overviewData?.memory_usage?.[0]?.time,
       };
     });
-  }, [nodes, overviewQueries.map(q => q.hook.data).join(','), overviewQueries.map(q => q.hook.error).join(',')]);
+  }, [nodes, allOverviewData]);
 
   // Calculate summary statistics
   const stats = React.useMemo(() => {
@@ -165,8 +188,8 @@ export function useNodesOverview() {
     };
   }, [enrichedNodes]);
 
-  const isLoading = nodesLoading || overviewQueries.some(q => q.hook.isLoading);
-  const error = nodesError;
+  const isLoading = nodesLoading || overviewLoading;
+  const error = nodesError || overviewError;
 
   return {
     nodes: enrichedNodes,
