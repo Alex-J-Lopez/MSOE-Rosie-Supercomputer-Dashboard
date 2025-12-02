@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu, MemoryStick, HardDrive, Wifi, Zap, Users, Activity, Database, Server } from 'lucide-react';
+import { Cpu, MemoryStick, HardDrive, Wifi, Zap, Users, Activity, Database, Server, Trophy } from 'lucide-react';
 import CpuUsageComponent from '../components/CpuUsageComponent';
 import MemoryUsageComponent from '../components/MemoryUsageComponent';
 import DiskUsageComponent from '../components/DiskUsageComponent';
@@ -9,6 +9,7 @@ import JobDistributionComponent from '../components/JobDistributionComponent';
 import NodeOverviewComponent from '../components/NodeOverviewComponent';
 import NetworkSummaryComponent from '../components/NetworkSummaryComponent';
 import UserSessionsComponent from '../components/UserSessionsComponent';
+import LeaderboardComponent from '../components/LeaderboardComponent';
 
 export interface DashboardComponent {
   id: string;
@@ -128,6 +129,16 @@ export const DASHBOARD_COMPONENTS: DashboardComponent[] = [
     defaultSize: 'large',
     category: 'system',
     color: 'gray',
+  },
+  {
+    id: 'leaderboard',
+    name: 'Leaderboard',
+    description: 'User statistics and job leaderboard',
+    icon: Trophy,
+    component: LeaderboardComponent,
+    defaultSize: 'large',
+    category: 'system',
+    color: 'yellow',
   },
 ];
 
