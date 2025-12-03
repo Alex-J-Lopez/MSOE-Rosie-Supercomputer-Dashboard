@@ -5,10 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // If deploying to a subpath (e.g., https://username.github.io/repo-name/),
-  // uncomment and set basePath and assetPrefix:
-  // basePath: '/MSOE-Rosie-Supercomputer-Dashboard-Project',
-  // assetPrefix: '/MSOE-Rosie-Supercomputer-Dashboard-Project',
+  // Configured for GitHub Pages deployment at https://alex-j-lopez.github.io/MSOE-Rosie-Supercomputer-Dashboard/
+  basePath: '/MSOE-Rosie-Supercomputer-Dashboard',
+  assetPrefix: '/MSOE-Rosie-Supercomputer-Dashboard',
 };
 
 export default nextConfig;
