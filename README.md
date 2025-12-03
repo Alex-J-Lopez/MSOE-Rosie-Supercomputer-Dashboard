@@ -2,6 +2,9 @@
 
 A modern, interactive Next.js web dashboard for monitoring and visualizing workloads, resource utilization, and job distribution across Milwaukee School of Engineering's Rosie Supercomputer.
 
+Check it out: https://alex-j-lopez.github.io/MSOE-Rosie-Supercomputer-Dashboard/
+(Note: You'll need to be on the MSOE wifi or using the global protect vpn to get realtime data)
+
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.3-000000?style=flat-square&logo=next.js)
 ![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat-square&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript)
