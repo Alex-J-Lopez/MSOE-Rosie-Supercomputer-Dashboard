@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu, MemoryStick, HardDrive, Wifi, Zap, Users, Activity, Database, Server, Trophy } from 'lucide-react';
+import { Cpu, MemoryStick, HardDrive, Wifi, Zap, Users, Activity, Database, Server, Trophy, MessageSquare } from 'lucide-react';
 import CpuUsageComponent from '../components/CpuUsageComponent';
 import MemoryUsageComponent from '../components/MemoryUsageComponent';
 import DiskUsageComponent from '../components/DiskUsageComponent';
@@ -10,6 +10,7 @@ import NodeOverviewComponent from '../components/NodeOverviewComponent';
 import NetworkSummaryComponent from '../components/NetworkSummaryComponent';
 import UserSessionsComponent from '../components/UserSessionsComponent';
 import LeaderboardComponent from '../components/LeaderboardComponent';
+import LlmChatComponent from '../components/LlmChatComponent';
 
 export interface DashboardComponent {
   id: string;
@@ -139,6 +140,16 @@ export const DASHBOARD_COMPONENTS: DashboardComponent[] = [
     defaultSize: 'large',
     category: 'system',
     color: 'yellow',
+  },
+  {
+    id: 'llm-chat',
+    name: 'LLM Chat',
+    description: 'Chat with ROSIE LLM assistant',
+    icon: MessageSquare,
+    component: LlmChatComponent,
+    defaultSize: 'large',
+    category: 'system',
+    color: 'purple',
   },
 ];
 
