@@ -111,13 +111,13 @@ const DashboardWithSidebar: React.FC<DashboardWithSidebarProps> = ({ sidebarOpen
       <div className="flex min-h-screen">
         {/* Component Sidebar */}
         {sidebarOpen && (
-          <div className="w-80 flex-shrink-0 mr-4">
+          <div className="w-80 flex-shrink-0">
             <ComponentSidebar />
           </div>
         )}
 
-        {/* Dashboard Grid - Full width with margins */}
-        <div className="flex-1 min-w-0 px-6 py-6 max-w-none">
+        {/* Dashboard Grid - Full width */}
+        <div className="flex-1 min-w-0 px-4 py-6">
           <DraggableDashboard />
         </div>
       </div>
