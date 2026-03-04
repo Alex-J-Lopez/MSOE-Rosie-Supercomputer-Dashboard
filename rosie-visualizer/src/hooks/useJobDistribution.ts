@@ -71,7 +71,8 @@ export function useSlurmActiveNodes() {
   return {
     data: data?.results || [],
     isLoading,
-    error,
+    // If we have previously fetched data, suppress the error and show stale data
+    error: data !== undefined ? undefined : error,
   };
 }
 
@@ -92,7 +93,8 @@ export function useJobData() {
   return {
     data: data?.results || [],
     isLoading,
-    error,
+    // If we have previously fetched data, suppress the error and show stale data
+    error: data !== undefined ? undefined : error,
   };
 }
 
@@ -113,7 +115,8 @@ export function useSlurmNodeUsers() {
   return {
     data: data?.results || [],
     isLoading,
-    error,
+    // If we have previously fetched data, suppress the error and show stale data
+    error: data !== undefined ? undefined : error,
   };
 }
 
