@@ -20,11 +20,15 @@ const fetcher = async (url: string) => {
   return res.json();
 };
 
-export function useLeaderboard() {
+export type LeaderboardPeriod = 'all' | '30d' | '6m' | '1y' | '2y';
+
+export function useLeaderboard(period: LeaderboardPeriod = 'all') {
   const { pollRate } = usePollRate();
-  
+
+  const url = `https://dashboard.hpc.msoe.edu/api/leaderboard?period=${period}`;
+
   const { data, error, isLoading } = useSWR<LeaderboardResponse>(
-    'https://dashboard.hpc.msoe.edu/api/leaderboard',
+    url,
     fetcher,
     {
       refreshInterval: pollRate || undefined,

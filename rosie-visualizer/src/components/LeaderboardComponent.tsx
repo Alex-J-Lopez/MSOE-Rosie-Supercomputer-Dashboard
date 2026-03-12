@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Trophy, RefreshCw, AlertCircle, Medal, Clock, Briefcase, Search, ChevronUp, ChevronDown } from 'lucide-react';
-import { useLeaderboard } from '../hooks/useLeaderboard';
+import { useLeaderboard, LeaderboardPeriod } from '../hooks/useLeaderboard';
 
 interface LeaderboardComponentProps {
   className?: string;
@@ -12,7 +12,8 @@ type SortField = 'total_jobs' | 'total_time_used' | 'username';
 type SortDirection = 'asc' | 'desc';
 
 const LeaderboardComponent: React.FC<LeaderboardComponentProps> = ({ className = '' }) => {
-  const { users, isLoading, error } = useLeaderboard();
+  const [period, setPeriod] = useState<LeaderboardPeriod>('all');
+  const { users, isLoading, error } = useLeaderboard(period);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<SortField>('total_jobs');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
@@ -157,8 +158,20 @@ const LeaderboardComponent: React.FC<LeaderboardComponentProps> = ({ className =
           {isLoading && <RefreshCw className="h-4 w-4 animate-spin text-gray-500" />}
         </div>
         
-        {/* Search bar */}
+        {/* Search bar and period picker */}
         <div className="flex items-center space-x-2">
+          <select
+            value={period}
+            onChange={(e) => setPeriod(e.target.value as LeaderboardPeriod)}
+            className="py-1 px-2 border border-gray-300 rounded-md text-sm text-black focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            aria-label="Select time period"
+          >
+            <option value="all">All Time</option>
+            <option value="30d">Last 30 Days</option>
+            <option value="6m">Last 6 Months</option>
+            <option value="1y">Last 1 Year</option>
+            <option value="2y">Last 2 Years</option>
+          </select>
           <div className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
