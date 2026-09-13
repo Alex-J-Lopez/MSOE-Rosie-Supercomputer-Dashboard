@@ -62,7 +62,10 @@ const LlmChatComponent: React.FC<LlmChatComponentProps> = ({ className = '' }) =
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: userMessage.content,
+          messages: [...messages, userMessage].map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
           maxTokens: 1024,
         }),
       });
