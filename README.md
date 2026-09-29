@@ -99,6 +99,8 @@ rosie-visualizer/
 ├── package.json                    # Project dependencies
 └── next-env.d.ts                   # Next.js TypeScript definitions
 ```
+## Architecture
+<img width="6362" height="5029" alt="diagram" src="https://github.com/user-attachments/assets/03f2e638-46ed-4870-a8a5-b0f73ade9843" />
 
 ## Dependencies
 
